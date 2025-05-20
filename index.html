@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gerador de Músicas MPB com IA</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="script.js" defer></script>
+</head>
+<body class="bg-[#0e1a40] text-white font-sans min-h-screen flex flex-col items-center justify-center p-6">
+
+  <div class="max-w-3xl w-full text-center">
+    <h1 class="text-4xl font-bold mb-2 text-white">🎼 Gerador de Músicas MPB</h1>
+    <p class="text-blue-100 mb-10 text-lg">
+      Inspire-se em grandes artistas da MPB e crie sua própria composição musical com ajuda da inteligência artificial.
+    </p>
+
+    <div class="bg-[#14214d] rounded-2xl shadow-xl p-8 text-left relative" id="formulario">
+      <label class="block mb-4">
+        <span class="block text-sm font-medium text-blue-200 mb-1">Artista de Inspiração</span>
+        <input id="artista-modelo" type="text" placeholder="Ex: Caetano Veloso, Elis Regina..." class="w-full px-4 py-2 rounded-lg bg-[#1f2d5a] text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      </label>
+
+      <div id="palavras" class="space-y-2 mb-4">
+        <input type="text" class="palavra-input w-full px-4 py-2 rounded-lg bg-[#1f2d5a] text-white placeholder-blue-300" placeholder="Ex: amor" />
+        <input type="text" class="palavra-input w-full px-4 py-2 rounded-lg bg-[#1f2d5a] text-white placeholder-blue-300" placeholder="Ex: mar" />
+        <input type="text" class="palavra-input w-full px-4 py-2 rounded-lg bg-[#1f2d5a] text-white placeholder-blue-300" placeholder="Ex: saudade" />
+      </div>
+
+      <div class="flex justify-between items-center mb-6">
+        <button id="limpar-btn" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg text-sm">🧹 Limpar Campos</button>
+      </div>
+
+      <button id="gerar-musica-btn" class="w-full bg-gradient-to-r from-blue-700 to-indigo-700 hover:from-blue-600 hover:to-indigo-600 text-white font-semibold py-3 rounded-lg text-lg">✨ Gerar Música</button>
+    </div>
+
+    <div id="resposta" class="bg-[#1f2d5a] mt-8 p-6 rounded-xl shadow-lg hidden text-left space-y-4">
+      <h3 class="text-xl font-semibold text-white mb-2">🎤 Letra da Música</h3>
+      <pre id="letra-gerada" class="whitespace-pre-wrap text-blue-100 font-medium text-base leading-relaxed"></pre>
+    </div>
+  </div>
+
+  <footer class="mt-8 text-sm text-center text-gray-400">
+        © 2025 | Desenvolvido com 💙 por Sarah Dias Venancio
+  </footer>
+
+    <!-- Chat Flutuante -->
+  <div id="chatbox" class="fixed bottom-20 right-6 w-80  border border-blue-900 rounded-xl shadow-lg hidden flex flex-col z-50">
+    <div class="bg-blue-900 text-white p-3 rounded-t-xl flex justify-between items-center">
+      <span class="font-bold">Chat</span>
+      <button id="fechar-chat" class="text-white text-xl">&times;</button>
+    </div>
+    <div id="chat-mensagens" class="p-4 h-64 overflow-y-auto space-y-2 text-sm"></div>
+    <form id="chat-form" class="flex border-t border-gray-200">
+      <input type="text" id="chat-input" placeholder="Digite sua pergunta..." class="flex-1 p-2 outline-none text-blue-900" required />
+      <button type="submit" class="bg-blue-900 text-white px-4 hover:bg-blue-600 transition">Enviar</button>
+    </form>
+  </div>
+
+  <!-- Botão flutuante do Chat -->
+  <button
+    id="abrir-chat" class="fixed bottom-6 right-6 bg-blue-900 text-blue p-4 rounded-full shadow-lg hover:bg-blue-600 transition duration-200 z-50" title="Acessar o Chat">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round"
+            d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.77 9.77 0 01-4-.84L3 20l1.43-3.73A8.959 8.959 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+    </svg>
+  </button>
+
+  <script src="script.js"></script>
+</body>
+</html>
