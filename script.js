@@ -3,14 +3,22 @@ const divPalavras = document.getElementById('palavras');
 const btnGerarMusica = document.getElementById('gerar-musica-btn');
 const btnLimparCampos = document.getElementById('limpar-btn');
 const divResposta = document.getElementById('resposta');
-const preLetra = document.getElementById('letra-gerada');
+const divComposicao = document.getElementById('composicao-gerada');
+// Novos elementos para exibir informações da música
+const tituloMusicaElement = document.getElementById('titulo-musica');
+const artistaGeradoElement = document.getElementById('artista-gerado');
+const palavrasGeradasElement = document.getElementById('palavras-geradas');
+
 
 function limparCampos() {
     artistaModeloInput.value = '';
     const inputs = divPalavras.querySelectorAll('.palavra-input');
     inputs.forEach(input => input.value = '');
     divResposta.classList.add('hidden');
-    preLetra.textContent = '';
+    divComposicao.innerHTML = ''; // Limpa o conteúdo da composição
+    tituloMusicaElement.textContent = ''; // Limpa o título
+    artistaGeradoElement.textContent = ''; // Limpa o artista
+    palavrasGeradasElement.textContent = ''; // Limpa as palavras
 }
 
 async function enviarFormularioGerarMusica() {
@@ -48,16 +56,45 @@ async function enviarFormularioGerarMusica() {
 
         const json = await resposta.json();
 
-        if (json.erro || !json.letra) {
-            preLetra.textContent = "Erro ao gerar música: " + (json.erro || "resposta inesperada.");
+        divComposicao.innerHTML = ''; // Limpa qualquer conteúdo anterior
+        tituloMusicaElement.textContent = ''; // Limpa título anterior
+        artistaGeradoElement.textContent = ''; // Limpa artista anterior
+        palavrasGeradasElement.textContent = ''; // Limpa palavras anteriores
+
+        if (json.erro || !json.composicao) {
+            divComposicao.textContent = "Erro ao gerar música: " + (json.erro || "resposta inesperada.");
             divResposta.classList.remove('hidden');
         } else {
-            preLetra.textContent = json.letra.join("\n");
+            // Preenche as novas informações
+            if (json.titulo) {
+                tituloMusicaElement.textContent = json.titulo;
+            }
+            if (json.artista_inspirado) {
+                artistaGeradoElement.textContent = `Artista de inspiração: ${json.artista_inspirado}`;
+            }
+            if (json.palavras_usadas && json.palavras_usadas.length > 0) {
+                palavrasGeradasElement.textContent = `Palavras-chave: ${json.palavras_usadas.join(', ')}`;
+            }
+
+
+            // Itera sobre a nova estrutura de dados para exibir letra e cifra
+            json.composicao.forEach(item => {
+                if (item.cifra) {
+                    const cifraElement = document.createElement('div');
+                    cifraElement.textContent = item.cifra;
+                    cifraElement.classList.add('text-yellow-300', 'font-bold', 'text-sm'); // Estilo para a cifra
+                    divComposicao.appendChild(cifraElement);
+                }
+                const linhaElement = document.createElement('div');
+                linhaElement.textContent = item.linha;
+                linhaElement.classList.add('mb-2'); // Espaçamento entre as linhas
+                divComposicao.appendChild(linhaElement);
+            });
             divResposta.classList.remove('hidden');
         }
 
     } catch (e) {
-        preLetra.textContent = "Erro ao se comunicar com o servidor: " + e.message;
+        divComposicao.textContent = "Erro ao se comunicar com o servidor: " + e.message;
         divResposta.classList.remove('hidden');
     }
 
@@ -71,7 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-// Chatbot
+// Chatbot (sem alterações relevantes para esta funcionalidade)
   const abrirChat = document.getElementById("abrir-chat");
   const fecharChat = document.getElementById("fechar-chat");
   const chatBox = document.getElementById("chatbox");
